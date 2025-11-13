@@ -1,7 +1,7 @@
-import colors from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Href, Link } from 'expo-router';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import colors from '../constants/colors';
 
 type NavigationButtonProps = {
   link?: Href;

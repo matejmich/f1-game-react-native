@@ -1,6 +1,6 @@
-import colors from '@/constants/colors';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import colors from '../constants/colors';
 import NavigationButton from './NavigationButton';
 
 type GeneralLayoutProps = {
