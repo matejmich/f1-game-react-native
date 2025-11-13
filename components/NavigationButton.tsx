@@ -30,11 +30,11 @@ export default function NavigationButton({ link, modal }: NavigationButtonProps)
 const styles = StyleSheet.create({
   navigationButton: {
     padding: 16,
-    backgroundColor: colors.primary,
-    borderRadius: '50%',
-    boxShadow: '0 0 10px ' + colors.secondary,
+    backgroundColor: colors.white,
+    borderRadius: 20,
+    boxShadow: '0 0 20px ' + colors.secondary,
   },
   navigationIcon: {
-    color: colors.secondary,
+    color: colors.primary,
   },
 });
