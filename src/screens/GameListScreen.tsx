@@ -1,18 +1,15 @@
 import { router } from 'expo-router';
 import { FlatList, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import GameButton from '../components/GameButton';
-export default function GameListScreen() {
-  const gamesList = [
-    { id: '1', name: 'Game 1' },
-    { id: '2', name: 'Game 2' },
-    { id: '3', name: 'Game 3' },
-  ];
+import gamesList from '../games/gameList';
 
+export default function GameListScreen() {
   const handleGamePress = (gameId: string) => {
     router.push(`/(tabs)/games/${gameId}`);
   };
   return (
-    <>
+    <SafeAreaView>
       <Text>Games</Text>
       <FlatList
         data={gamesList}
@@ -22,7 +19,7 @@ export default function GameListScreen() {
         contentContainerStyle={styles.buttonListContainer}
         columnWrapperStyle={styles.columnWrapper}
       />
-    </>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
