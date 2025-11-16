@@ -15,10 +15,9 @@ export default function WelcomeScreen() {
     <>
       <ImageBackground source={backgroudImage} contentFit="cover" style={styles.background}>
         <SafeAreaView style={styles.container}>
-          <Text style={styles.text}>Welcome page 🏁</Text>
-
+          <Text style={styles.text}>Welcome to F1 mini 🏁</Text>
           <TouchableOpacity style={styles.button} onPress={handleNavigation}>
-            <Text style={styles.text}>Play</Text>
+            <Text style={styles.buttonText}>Play</Text>
           </TouchableOpacity>
         </SafeAreaView>
       </ImageBackground>
@@ -29,6 +28,9 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 64,
   },
   background: {
     flex: 1,
@@ -39,10 +41,18 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     fontSize: 24,
+    fontFamily: 'Orbitron-Regular',
   },
   button: {
-    padding: 16,
+    padding: 32,
     backgroundColor: colors.secondary,
     borderRadius: 8,
+  },
+  buttonText: {
+    color: colors.white,
+    fontSize: 40,
+    paddingHorizontal: 16,
+    fontFamily: 'Orbitron-ExtraBold',
+    textTransform: 'uppercase',
   },
 });
