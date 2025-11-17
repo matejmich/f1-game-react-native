@@ -1,10 +1,10 @@
 import { Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import TabLayout from '../components/TabLayout';
 
 export default function LeaderboardScreen() {
   return (
-    <SafeAreaView>
-      <Text>Leaderboard</Text>
-    </SafeAreaView>
+    <TabLayout title="Leaderboard">
+      <Text>Leaderboard Screen</Text>
+    </TabLayout>
   );
 }

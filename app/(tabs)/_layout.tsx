@@ -5,7 +5,12 @@ import { Tabs } from 'expo-router';
 export default function TabsLayout() {
   return (
     <Tabs
-      screenOptions={{ headerShown: false, tabBarStyle: { backgroundColor: colors.secondary } }}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: colors.primary },
+        tabBarActiveTintColor: colors.white,
+        tabBarInactiveTintColor: colors.primaryLightest,
+      }}
     >
       <Tabs.Screen
         name="games"

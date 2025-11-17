@@ -1,10 +1,10 @@
 import { Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import TabLayout from '../components/TabLayout';
 
 export default function SettingsScreen() {
   return (
-    <SafeAreaView>
+    <TabLayout title="Settings">
       <Text>Settings</Text>
-    </SafeAreaView>
+    </TabLayout>
   );
 }
