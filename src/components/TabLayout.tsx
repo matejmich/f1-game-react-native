@@ -1,8 +1,8 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import RacingStripes from '../components/racingStripes';
 import colors from '../constants/colors';
+import RacingStripes from './RacingStripes';
 
 type TabLaoutProps = {
   children: React.ReactNode;
