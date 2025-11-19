@@ -1,50 +1,70 @@
-# Welcome to your Expo app 👋
+# 🏎️ F1 Mini
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A lightweight Formula-1 inspired mobile game suite built with **React Native**.
 
-## Get started
+F1 Mini includes multiple skill-based mini-games. Player performance is normalized using realistic human ability ranges and converted into a **1–20 F1-style ranking**.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🚀 Features
 
-2. Start the app
+### 🎮 Mini-Games
 
-   ```bash
-   npx expo start
-   ```
+- **Lights Out** — reaction-time test modeled after real FIA start light behavior
+- **Take Turns** — timing and precision cornering
+- **Circuit Quiz** — guess the circuit based on outline
+- **Driver → Team Match** — memory and F1 knowledge
+- - more mini-games in development
 
-In the output, you'll find options to open the app in a
+### 🧠 Scoring System
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Each game outputs a **normalized performance score**.  
+The final ranking is mapped to a realistic **1 → 20 “F1 standing"**, where:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **1st place** = outstanding, high-skill performance
+- **20th place** = beginner or low performance
 
-## Get a fresh project
+### 🗃️ State Management with Zustand
 
-When you're ready, run:
+- Centralized player stats
+- Leaderboard storage
+- Shared cross-game state
+
+### 📱 Modern Expo Setup
+
+- File-based routing using **Expo Router**
+- Fast refresh
+
+---
+
+## 🛠️ Tech Stack
+
+| Area             | Tools                                |
+| ---------------- | ------------------------------------ |
+| Framework        | Expo + React Native                  |
+| Language         | TypeScript                           |
+| State Management | Zustand                              |
+| Routing          | Expo Router                          |
+| UI               | Custom RN components                 |
+| Gameplay         | Timers, gestures, normalized scoring |
+
+---
+
+## 📦 Getting Started
+
+Install dependencies:
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Run the app:
 
-## Learn more
+```bash
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+<!--
+## 📄 License
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+MIT -->
