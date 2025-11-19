@@ -44,6 +44,13 @@ export default function LightsOut() {
     setLights([false, false, false, false, false]);
   };
 
+  const resetGame = () => {
+    setGameState('idle');
+    setLights([false, false, false, false, false]);
+    setFalseStart(false);
+    setReactionTime(null);
+  };
+
   return (
     <View>
       <Lights lights={lights} />
