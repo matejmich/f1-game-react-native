@@ -88,8 +88,8 @@ export default function LightsOut() {
 function Lights({ lights }: { lights: boolean[] }) {
   return (
     <View style={styles.lightsOuter}>
-      {lights.map((on) => (
-        <View style={on ? styles.lightOn : styles.lightOff} />
+      {lights.map((on, index) => (
+        <View key={index} style={on ? styles.lightOn : styles.lightOff} />
       ))}
     </View>
   );

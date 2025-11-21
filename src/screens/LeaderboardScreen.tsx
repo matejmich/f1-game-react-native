@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import TabLayout from '../components/TabLayout';
 import colors from '../constants/colors';
-import { Pilot, pilots, teams } from '../constants/pilots';
+import { Pilot, pilots, teams } from '../constants/f1_lineup';
 import { useScoringStore } from '../stores/ScoringStore';
 
 export default function LeaderboardScreen() {
@@ -11,7 +11,7 @@ export default function LeaderboardScreen() {
   const placement: number = useMemo(() => {
     const scoreValues = Object.values(scores);
     if (scoreValues.length === 0) {
-      return 20;
+      return 19;
     }
     const total = scoreValues.reduce((acc, val) => acc + val, 0);
     const avg = total / scoreValues.length;
