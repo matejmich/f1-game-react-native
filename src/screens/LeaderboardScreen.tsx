@@ -1,7 +1,9 @@
+import { Image } from 'expo-image';
 import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import TabLayout from '../components/TabLayout';
 import colors from '../constants/colors';
+import { Pilot, pilots, teams } from '../constants/pilots';
 import { useScoringStore } from '../stores/ScoringStore';
 
 export default function LeaderboardScreen() {
@@ -23,7 +25,7 @@ export default function LeaderboardScreen() {
       <View style={styles.container}>
         <View style={styles.leaderBoardContainer}>
           {pilots.map((pilot, index) => (
-            <Pilot
+            <PilotComponent
               key={index}
               pilot={pilot}
               isActive={index + 1 === placement}
@@ -43,14 +45,21 @@ type PilotProps = {
   placement: number;
 };
 
-const Pilot = ({ pilot, isActive, placement }: PilotProps) => {
+const PilotComponent = ({ pilot, isActive, placement }: PilotProps) => {
   const surname = pilot.name.split(' ').slice(-1)[0];
   const shortcut = surname.slice(0, 3).toUpperCase();
   return (
     <View style={styles.pilot}>
       <Text style={styles.placement}>{placement}</Text>
-      <View style={[styles.pilotStripe, { backgroundColor: pilot.color }]} />
-      <Text style={[styles.pilotText, { color: isActive ? pilot.color : colors.white }]}>
+      <View style={[styles.pilotStripe, { backgroundColor: teams[pilot.teamId].color }]} />
+      <Image
+        source={teams[pilot.teamId].mini}
+        style={{ width: 16, height: 16, marginHorizontal: 8 }}
+        contentFit="contain"
+      />
+      <Text
+        style={[styles.pilotText, { color: isActive ? teams[pilot.teamId].color : colors.white }]}
+      >
         {shortcut}
       </Text>
     </View>
@@ -92,37 +101,3 @@ const styles = StyleSheet.create({
     fontFamily: 'Orbitron-ExtraBold',
   },
 });
-
-type Pilot = {
-  name: string;
-  shortcut?: string;
-  team: string;
-  color: string;
-};
-
-const pilots: Pilot[] = [
-  { name: 'Max Verstappen', team: 'Red Bull Racing', color: colors.team_redbull },
-  {
-    name: 'Fernando Alonso',
-    team: 'Aston Martin',
-    color: colors.team_astonmartin,
-  },
-  { name: 'Lewis Hamilton', team: 'Ferrari', color: colors.team_ferrari },
-  { name: 'Yuki Tsunoda', team: 'Red Bull Racing', color: colors.team_redbull },
-  { name: 'Lando Norris', team: 'Mclaren', color: colors.team_mclaren },
-  { name: 'Oscar Piastri', team: 'Mclaren', color: colors.team_mclaren },
-  { name: 'Lance Stroll', team: 'Aston Martin', color: colors.team_astonmartin },
-  { name: 'Kimi Antonelli', team: 'Mercedes', color: colors.team_mercedes },
-  { name: 'George Russell', team: 'Mercedes', color: colors.team_mercedes },
-  { name: 'Charles Leclerc', team: 'Ferrari', color: colors.team_ferrari },
-  { name: 'Esteban Ocon', team: 'Haas', color: colors.team_hass },
-  { name: 'Oliver Bearman', team: 'Haas', color: colors.team_hass },
-  { name: 'Pierre Gasly', team: 'Alpine', color: colors.team_alpine },
-  { name: 'Franco Colapinto', team: 'Alpine', color: colors.team_alpine },
-  { name: 'Nico Hulkenberg', team: 'Kick Sauber', color: colors.team_kicksauber },
-  { name: 'Gabriel Bortoleto', team: 'Kick Sauber', color: colors.team_kicksauber },
-  { name: 'Liam Lawson', team: 'Racing Bulls', color: colors.team_racingbulls },
-  { name: 'Isaac Hadjar', team: 'Racing Bulls', color: colors.team_racingbulls },
-  { name: 'Alex Albon', team: 'Williams', color: colors.team_williams },
-  { name: 'Carlos Sainz', team: 'Williams', color: colors.team_williams },
-];
