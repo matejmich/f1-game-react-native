@@ -1,3 +1,4 @@
+import CircuitQuiz from "./CircuitQuiz";
 import LightsOut from "./LightsOut";
 
 type Game = {
@@ -10,7 +11,7 @@ type Game = {
 export const gamesList: Game[] = [
     { id: '1', name: 'Lights Out', description: 'Test your reaction time.', component: LightsOut },
     { id: '2', name: 'Take Turns', description: 'Take the corners.' },
-    { id: '3', name: 'Circuit Quiz', description: 'Test your knowledge of F1 circuits.' },
+    { id: '3', name: 'Circuit Quiz', description: 'Test your knowledge of F1 circuits.', component: CircuitQuiz },
     { id: '4', name: 'Connect driver to team', description: 'Do you know which driver belongs to which team?' },
 ];
 

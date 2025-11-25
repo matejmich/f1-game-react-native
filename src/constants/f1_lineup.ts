@@ -67,7 +67,7 @@ export const teams: Record<string, Team> = {
     haas: { name: 'Haas', color: colors.team_hass, mini: mini_haas },
 }
 
-type Circuit = {
+export type Circuit = {
     name: string;
     country: string;
     image: Image;
