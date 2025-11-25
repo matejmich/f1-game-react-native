@@ -189,4 +189,9 @@ export const circuits: Record<string, Circuit> = {
         country: 'USA',
         image: require('../../assets/images/circuits/f1_2024_usa_outline.png'),
     },
+    miami: {
+        name: 'Miami International Autodrome',
+        country: 'USA',
+        image: require('../../assets/images/circuits/f1_2024_mia_outline.png'),
+    },
 };
