@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { gamesStyles } from './gamesStyles';
+import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useShallow } from 'zustand/shallow';
+import GameLayout from '../components/GameLayout';
+import RedButton from '../components/RedButton';
+import colors from '../constants/colors';
+import { useScoringStore } from '../stores/ScoringStore';
 
 type GameState = 'idle' | 'running' | 'timing' | 'finished';
+
+// time range is from 150 to 3150 ms where anything below 150 ms is considered a perfect and anything above 3000 ms is considered too slow to count
 
 export default function LightsOut() {
   const [gameState, setGameState] = useState<GameState>('idle');
@@ -10,6 +17,15 @@ export default function LightsOut() {
   const [readyTime, setReadyTime] = useState<number | null>(null);
   const [falseStart, setFalseStart] = useState(false);
   const [reactionTime, setReactionTime] = useState<number | null>(null);
+
+  const { scores, setScores } = useScoringStore(
+    useShallow((state) => ({
+      scores: state.scores,
+      setScores: state.setScores,
+    })),
+  );
+  const storedScore = scores['1'];
+  const storedTime = 3150 - storedScore * 3000;
 
   const startGame = () => {
     const randomDelay = generateRandomTimer();
@@ -39,6 +55,11 @@ export default function LightsOut() {
       return;
     }
     const reactionTime = Date.now() - readyTime;
+    const score = 1 - (reactionTime - 150) / 3000;
+    const currentBest = scores['1'] || 0;
+    if (score > currentBest) {
+      setScores('1', score);
+    }
     setReactionTime(reactionTime);
     setGameState('finished');
     setLights([false, false, false, false, false]);
@@ -52,46 +73,37 @@ export default function LightsOut() {
   };
 
   return (
-    <View>
+    <GameLayout title="Lights Out">
       <Lights lights={lights} />
-      <Text>aaa</Text>
+      {storedScore && (
+        <Text style={styles.statsText}>
+          Best time: {storedTime === 0 ? 'under 150 ms' : `${storedTime} ms`}
+        </Text>
+      )}
       {gameState === 'idle' ? (
-        <TouchableOpacity style={gamesStyles.gameButton} onPress={startGame}>
-          <Text>Start</Text>
-        </TouchableOpacity>
+        <RedButton onPress={startGame} title="Start" />
       ) : gameState === 'running' || gameState === 'timing' ? (
-        <TouchableOpacity style={gamesStyles.gameButton} onPress={stopGame}>
-          <Text>Go!</Text>
-        </TouchableOpacity>
+        <RedButton onPress={stopGame} title="Go!" />
       ) : (
         <>
           {reactionTime && <Text>Your reaction time: {reactionTime} ms</Text>}
           {falseStart && (
             <Text style={{ color: 'red' }}>False start! Wait for the lights to go off.</Text>
           )}
-          <TouchableOpacity
-            style={gamesStyles.gameButton}
-            onPress={() => {
-              setGameState('idle');
-              setFalseStart(false);
-              setReactionTime(null);
-            }}
-          >
-            <Text>Restart</Text>
-          </TouchableOpacity>
+          <RedButton onPress={resetGame} title="Restart" />
         </>
       )}
-    </View>
+    </GameLayout>
   );
 }
 
 function Lights({ lights }: { lights: boolean[] }) {
   return (
-    <View style={styles.lightsOuter}>
+    <SafeAreaView style={styles.lightsOuter}>
       {lights.map((on, index) => (
         <View key={index} style={on ? styles.lightOn : styles.lightOff} />
       ))}
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -123,5 +135,10 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     backgroundColor: 'black',
+  },
+  statsText: {
+    fontFamily: 'Orbitron-Medium',
+    color: colors.white,
+    marginVertical: 4,
   },
 });

@@ -18,5 +18,7 @@ const styles = StyleSheet.create({
   redButtonText: {
     color: colors.white,
     fontFamily: 'Orbitron-Bold',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useShallow } from 'zustand/react/shallow';
+import GameLayout from '../components/GameLayout';
+import RedButton from '../components/RedButton';
 import colors from '../constants/colors';
 import { Circuit, circuits } from '../constants/f1_lineup';
 import { useScoringStore } from '../stores/ScoringStore';
@@ -80,23 +81,19 @@ export default function TrackQuiz() {
 
   if (currentTurn >= trackOrder.length) {
     return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.header}>Congrats finished!</Text>
+      <GameLayout title="Congrats finished!">
         <View style={styles.finishedContainer}>
           <Text style={styles.statsText}>
             You scored: {score} / {trackOrder.length}
           </Text>
-          <TouchableOpacity onPress={restartGame} style={styles.restartButton}>
-            <Text style={styles.restartText}>Restart</Text>
-          </TouchableOpacity>
+          <RedButton onPress={restartGame} title="Restart" />
         </View>
-      </SafeAreaView>
+      </GameLayout>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Do you know this track?</Text>
+    <GameLayout title="Do you know this track?">
       <View style={styles.statsContainer}>
         <Text style={styles.statsText}>Highest score: {(storeScore || 0) * allTracks.length}</Text>
         <Text style={styles.statsText}>
@@ -128,7 +125,7 @@ export default function TrackQuiz() {
           </TouchableOpacity>
         ))}
       </View>
-    </SafeAreaView>
+    </GameLayout>
   );
 }
 
@@ -149,19 +146,10 @@ function shuffleTracks(allTracks: Circuit[]) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.primary,
-  },
-  header: {
-    fontSize: 24,
-    fontFamily: 'Orbitron-Bold',
-    color: colors.secondary,
-  },
   imageContainer: {
     height: '50%',
+    borderColor: 'purple',
+    borderWidth: 2,
   },
   statsContainer: {
     justifyContent: 'space-between',
@@ -197,18 +185,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Orbitron-Medium',
     fontSize: 12,
   },
-  restartButton: {
-    backgroundColor: colors.secondary,
-    padding: 16,
-    borderRadius: 8,
-  },
   finishedContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 16,
     marginTop: 24,
-  },
-  restartText: {
-    color: colors.white,
-    fontFamily: 'Orbitron-Bold',
+    flex: 1,
   },
 });
