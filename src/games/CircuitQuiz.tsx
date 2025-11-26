@@ -23,6 +23,7 @@ export default function TrackQuiz() {
       setScores: state.setScores,
     })),
   );
+  const storeScore = scores['3'];
 
   useEffect(() => {
     const currentTrack = trackOrder[currentTurn];
@@ -58,7 +59,7 @@ export default function TrackQuiz() {
     if (currentTurn >= trackOrder.length - 1) {
       const finalScore = nextScore / trackOrder.length;
 
-      if (scores['3'] === undefined || finalScore > scores['3']) {
+      if (storeScore === undefined || finalScore > storeScore) {
         setScores('3', finalScore);
       }
     }
@@ -97,6 +98,7 @@ export default function TrackQuiz() {
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Do you know this track?</Text>
       <View style={styles.statsContainer}>
+        <Text style={styles.statsText}>Highest score: {(storeScore || 0) * allTracks.length}</Text>
         <Text style={styles.statsText}>
           Score: {score} / {trackOrder.length}
         </Text>
