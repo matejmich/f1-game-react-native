@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useShallow } from 'zustand/react/shallow';
 import colors from '../constants/colors';
 import { Circuit, circuits } from '../constants/f1_lineup';
+import { useScoringStore } from '../stores/ScoringStore';
 
 const OPTIONS_COUNT = 3;
 
@@ -14,6 +16,13 @@ export default function TrackQuiz() {
   const [chosenTrack, setChosenTrack] = useState<Circuit | null>(null);
   const [currentOptions, setCurrentOptions] = useState<Circuit[]>([]);
   const [score, setScore] = useState(0);
+
+  const { scores, setScores } = useScoringStore(
+    useShallow((state) => ({
+      scores: state.scores,
+      setScores: state.setScores,
+    })),
+  );
 
   useEffect(() => {
     const currentTrack = trackOrder[currentTurn];
@@ -41,10 +50,22 @@ export default function TrackQuiz() {
   }, [currentTurn, trackOrder]);
 
   const handleAnswer = (option: Circuit) => {
-    if (option.name === trackOrder[currentTurn].name) {
+    const isCorrect = option.name === trackOrder[currentTurn].name;
+
+    const nextScore = isCorrect ? score + 1 : score;
+
+    // last question
+    if (currentTurn >= trackOrder.length - 1) {
+      const finalScore = nextScore / trackOrder.length;
+
+      if (scores['3'] === undefined || finalScore > scores['3']) {
+        setScores('3', finalScore);
+      }
+    }
+
+    if (isCorrect) {
       setScore((s) => s + 1);
     }
-    if (currentTurn >= trackOrder.length) return;
     setCurrentTurn((prev) => prev + 1);
   };
 

@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
 import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import RedButton from '../components/RedButton';
 import TabLayout from '../components/TabLayout';
 import colors from '../constants/colors';
 import { Pilot, pilots, teams } from '../constants/f1_lineup';
@@ -11,12 +12,13 @@ export default function LeaderboardScreen() {
   const placement: number = useMemo(() => {
     const scoreValues = Object.values(scores);
     if (scoreValues.length === 0) {
-      return 19;
+      return 20;
     }
     const total = scoreValues.reduce((acc, val) => acc + val, 0);
     const avg = total / scoreValues.length;
     return 20 - Math.floor(avg * 19); // map 0-1 to 20-1
   }, [scores]);
+  const clearScores = useScoringStore((state) => state.clearScores);
   return (
     <TabLayout title="Leaderboard">
       <Text>
@@ -33,7 +35,10 @@ export default function LeaderboardScreen() {
             />
           ))}
         </View>
-        <View style={styles.driverBoardContainer}></View>
+        <View style={styles.driverBoardContainer}>
+          <RedButton onPress={clearScores} title="Clear Score" />
+          <Text style={styles.pilotText}>score: {scores['3']}</Text>
+        </View>
       </View>
     </TabLayout>
   );
@@ -79,7 +84,6 @@ const styles = StyleSheet.create({
   },
   driverBoardContainer: {
     borderBlockColor: 'blue',
-    height: 40,
     borderWidth: 2,
     flex: 1,
   },
@@ -99,5 +103,6 @@ const styles = StyleSheet.create({
   },
   pilotText: {
     fontFamily: 'Orbitron-ExtraBold',
+    color: colors.white,
   },
 });

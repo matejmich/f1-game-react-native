@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 type ScoringStore = {
     scores: Record<string, number>; // gameId to rating mapping
     setScores: (gameId: string, rating: number) => void;
+    clearScores: () => void;
 }
 // scoring ranges from 0 (worst) to 1 (best)
 export const useScoringStore = create<ScoringStore>()(persist(
@@ -16,6 +17,7 @@ export const useScoringStore = create<ScoringStore>()(persist(
                     [gameId]: score,
                 },
             })),
+        clearScores: () => set({ scores: {} }),
     }), {
     name: "rating-store",
 }));
