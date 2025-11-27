@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useShallow } from 'zustand/shallow';
 import GameLayout from '../components/GameLayout';
 import RedButton from '../components/RedButton';
 import colors from '../constants/colors';
 import { useScoringStore } from '../stores/ScoringStore';
+import gamesList from './gameList';
 
 type GameState = 'idle' | 'running' | 'timing' | 'finished';
 
@@ -17,6 +17,8 @@ export default function LightsOut() {
   const [readyTime, setReadyTime] = useState<number | null>(null);
   const [falseStart, setFalseStart] = useState(false);
   const [reactionTime, setReactionTime] = useState<number | null>(null);
+
+  const gameInfo = gamesList.find((game) => game.id === '1');
 
   const { scores, setScores } = useScoringStore(
     useShallow((state) => ({
@@ -73,13 +75,15 @@ export default function LightsOut() {
   };
 
   return (
-    <GameLayout title="Lights Out">
+    <GameLayout title={gameInfo?.name || ''} description={gameInfo?.description || ''}>
+      <View style={styles.statsContainer}>
+        {storedScore && (
+          <Text style={styles.statsText}>
+            Best time: {storedTime === 0 ? 'under 150 ms' : `${storedTime} ms`}
+          </Text>
+        )}
+      </View>
       <Lights lights={lights} />
-      {storedScore && (
-        <Text style={styles.statsText}>
-          Best time: {storedTime === 0 ? 'under 150 ms' : `${storedTime} ms`}
-        </Text>
-      )}
       {gameState === 'idle' ? (
         <RedButton onPress={startGame} title="Start" />
       ) : gameState === 'running' || gameState === 'timing' ? (
@@ -99,46 +103,48 @@ export default function LightsOut() {
 
 function Lights({ lights }: { lights: boolean[] }) {
   return (
-    <SafeAreaView style={styles.lightsOuter}>
+    <View style={styles.lightsOuter}>
       {lights.map((on, index) => (
         <View key={index} style={on ? styles.lightOn : styles.lightOff} />
       ))}
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   lightsOuter: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    alignSelf: 'center',
-    gap: 10,
     padding: 20,
     backgroundColor: 'black',
     borderRadius: 10,
   },
-  light: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'red',
-  },
   lightOn: {
     width: 50,
     height: 50,
-    borderRadius: 25,
-    backgroundColor: 'red',
+    borderRadius: '50%',
+    backgroundColor: colors.secondary,
+    shadowColor: colors.secondary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 20,
   },
   lightOff: {
     width: 50,
     height: 50,
-    borderRadius: 25,
-    backgroundColor: 'black',
+    borderRadius: '50%',
+    backgroundColor: 'transparent',
   },
   statsText: {
     fontFamily: 'Orbitron-Medium',
     color: colors.white,
     marginVertical: 4,
+    textAlign: 'center',
+  },
+  statsContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
   },
 });

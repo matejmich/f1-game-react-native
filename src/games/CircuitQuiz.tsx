@@ -6,11 +6,13 @@ import RedButton from '../components/RedButton';
 import colors from '../constants/colors';
 import { Circuit, circuits } from '../constants/f1_lineup';
 import { useScoringStore } from '../stores/ScoringStore';
+import gamesList from './gameList';
 
 const OPTIONS_COUNT = 3;
 
 export default function TrackQuiz() {
   const allTracks = Object.values(circuits);
+  const gameInfo = gamesList.find((game) => game.id === '3');
 
   const [trackOrder, setTrackOrder] = useState(() => shuffleTracks(allTracks));
   const [currentTurn, setCurrentTurn] = useState(0);
@@ -93,7 +95,7 @@ export default function TrackQuiz() {
   }
 
   return (
-    <GameLayout title="Do you know this track?">
+    <GameLayout title={gameInfo?.name || ''} description={gameInfo?.description || ''}>
       <View style={styles.statsContainer}>
         <Text style={styles.statsText}>Highest score: {(storeScore || 0) * allTracks.length}</Text>
         <Text style={styles.statsText}>
@@ -109,7 +111,14 @@ export default function TrackQuiz() {
             // FIXME: solve ts error
             // @ts-ignore
             source={chosenTrack.image}
-            style={{ width: 300, height: 300, resizeMode: 'contain' }}
+            style={{
+              width: 300,
+              height: 300,
+              resizeMode: 'contain',
+              // borderColor: 'blue',
+              // borderWidth: 1,
+              alignSelf: 'center',
+            }}
           />
         )}
       </View>
@@ -148,8 +157,8 @@ function shuffleTracks(allTracks: Circuit[]) {
 const styles = StyleSheet.create({
   imageContainer: {
     height: '50%',
-    borderColor: 'purple',
-    borderWidth: 2,
+    // borderColor: 'purple',
+    // borderWidth: 2,
   },
   statsContainer: {
     justifyContent: 'space-between',
