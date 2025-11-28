@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useShallow } from 'zustand/shallow';
 import GameLayout from '../components/GameLayout';
@@ -53,9 +53,6 @@ export default function LightsOut() {
   const stopGame = () => {
     if (gameState !== 'timing' || !readyTime) {
       setFalseStart(true);
-      setReactionTime(null);
-      setGameState('finished');
-
       return;
     }
     const reactionTime = Date.now() - readyTime;
@@ -76,6 +73,48 @@ export default function LightsOut() {
     setReactionTime(null);
   };
 
+  const controls = useMemo(() => {
+    switch (gameState) {
+      case 'idle':
+        return <RedButton onPress={startGame} title="Start" />;
+      case 'running':
+        if (falseStart) {
+          return <Text style={styles.statsError}>False start! Wait for the lights to go off.</Text>;
+        } else {
+          return <RedButton onPress={stopGame} title="Go!" />;
+        }
+
+      case 'timing':
+        if (falseStart) {
+          return (
+            <>
+              <Text style={styles.statsError}>False start! Wait for the lights to go off.</Text>
+              <RedButton onPress={resetGame} title="Restart" />
+            </>
+          );
+        } else {
+          return <RedButton onPress={stopGame} title="Go!" />;
+        }
+      case 'finished':
+        if (falseStart) {
+          return (
+            <>
+              <Text style={styles.statsError}>False start! Wait for the lights to go offxxx.</Text>
+              <RedButton onPress={resetGame} title="Restart" />
+            </>
+          );
+        } else {
+          return (
+            <>
+              <RedButton onPress={resetGame} title="Restart" />
+            </>
+          );
+        }
+      default:
+        return null;
+    }
+  }, [gameState, falseStart]);
+
   return (
     <GameLayout title={gameInfo?.name || ''} description={gameInfo?.description || ''}>
       <View style={styles.statsContainer}>
@@ -84,20 +123,12 @@ export default function LightsOut() {
             Best time: {storedTime === 0 ? 'under 150 ms' : `${storedTime} ms`}
           </Text>
         )}
+        {reactionTime && (
+          <Text style={styles.statsText}>Your reaction time: {reactionTime} ms</Text>
+        )}
       </View>
       <Lights lights={lights} />
-      {gameState === 'idle' ? (
-        <RedButton onPress={startGame} title="Start" />
-      ) : gameState === 'running' || gameState === 'timing' ? (
-        <RedButton onPress={stopGame} title="Go!" />
-      ) : falseStart ? (
-        <Text style={styles.statsError}>False start! Wait for the lights to go off.</Text>
-      ) : (
-        <>
-          {reactionTime && <Text>Your reaction time: {reactionTime} ms</Text>}
-          <RedButton onPress={resetGame} title="Restart" />
-        </>
-      )}
+      <View style={styles.controlsContainer}>{controls}</View>
     </GameLayout>
   );
 }
@@ -120,6 +151,9 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'black',
     borderRadius: 10,
+    marginVertical: 20,
+    borderColor: colors.white,
+    borderWidth: 1,
   },
   lightOn: {
     width: 50,
@@ -147,11 +181,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
+    minHeight: 120,
   },
   statsError: {
     fontFamily: 'Orbitron-Medium',
     color: colors.secondary,
     marginVertical: 4,
     textAlign: 'center',
+  },
+  controlsContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
 });
