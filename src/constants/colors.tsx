@@ -3,6 +3,8 @@ const colors = {
   secondary: '#FF1E00',
   white: '#FFFFFF',
   grey: '#888888',
+  greyLight: '#c4c4c4ff',
+  greyLightest: '#ecececff',
   transparent: 'transparent',
   primaryLight: '#2A2A36',
   primaryLightest: '#3F3F4D',

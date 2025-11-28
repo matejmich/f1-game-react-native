@@ -14,9 +14,7 @@ export default function GameListScreen() {
         data={gamesList}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <GameButton item={item} onPress={handleGamePress} />}
-        numColumns={2}
         contentContainerStyle={styles.buttonListContainer}
-        columnWrapperStyle={styles.columnWrapper}
       />
     </TabLayout>
   );
@@ -25,7 +23,8 @@ export default function GameListScreen() {
 const styles = StyleSheet.create({
   buttonListContainer: {
     gap: 20,
-    padding: 20,
+    padding: 16,
+    paddingTop: 24,
   },
   columnWrapper: {
     justifyContent: 'space-between',

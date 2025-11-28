@@ -52,8 +52,10 @@ export default function LightsOut() {
 
   const stopGame = () => {
     if (gameState !== 'timing' || !readyTime) {
-      setGameState('finished');
       setFalseStart(true);
+      setReactionTime(null);
+      setGameState('finished');
+
       return;
     }
     const reactionTime = Date.now() - readyTime;
@@ -88,12 +90,11 @@ export default function LightsOut() {
         <RedButton onPress={startGame} title="Start" />
       ) : gameState === 'running' || gameState === 'timing' ? (
         <RedButton onPress={stopGame} title="Go!" />
+      ) : falseStart ? (
+        <Text style={styles.statsError}>False start! Wait for the lights to go off.</Text>
       ) : (
         <>
           {reactionTime && <Text>Your reaction time: {reactionTime} ms</Text>}
-          {falseStart && (
-            <Text style={{ color: 'red' }}>False start! Wait for the lights to go off.</Text>
-          )}
           <RedButton onPress={resetGame} title="Restart" />
         </>
       )}
@@ -146,5 +147,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
+  },
+  statsError: {
+    fontFamily: 'Orbitron-Medium',
+    color: colors.secondary,
+    marginVertical: 4,
+    textAlign: 'center',
   },
 });
